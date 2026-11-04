@@ -10,7 +10,7 @@ import { withUserConfig } from "@/utils/config-overlay.ts";
  * 类型见 src/types/config.ts。
  */
 export const siteConfig: SiteConfig = withUserConfig("site", {
-	site: "http://127.0.0.1/",
+	site: "http://www.404cafe.cn/",
 	base: "/",
 	title: "404笔记",
 	subtitle: "你好",
