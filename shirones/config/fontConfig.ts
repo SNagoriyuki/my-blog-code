@@ -40,15 +40,56 @@ import { resolveFontOptions as resolve } from "@/utils/font-options.ts";
 export const fontConfig: FontConfig = withUserConfig("font", {
 	/**
 	 * 构建模式：
-	 * - `"custom"`: 启用自定义字体（加载下方 fontFamilies 中配置的字体）
-	 * - `"system"`: 纯系统字体模式（不打包任何自定义字体文件，完全依赖访客设备）
+	 * - `"custom"`: 启用自定义字体
+	 * - `"system"`: 纯系统字体模式
 	 */
-	mode: "system",
+	mode: "custom", // 必须是 custom
 
 	/**
-	 * 字体清单列表（按需配置 body、cjk、mono 角色）
+	 * 字体清单列表（这里必须包含 body 和 cjk，否则会报错）
 	 */
-	fontFamilies: [ ],
+	fontFamilies: [
+		// 1. 补上基础的英文字体（body 角色，必须要有，否则会报错）
+		{
+			id: "outfit-body",
+			family: "Outfit",
+			role: "body",
+			source: "fontsource",
+			variants: [
+				{
+					file: "@fontsource/outfit/400.css",
+					weight: 400,
+					style: "normal",
+				},
+				{
+					file: "@fontsource/outfit/500.css",
+					weight: 500,
+					style: "normal",
+				},
+			],
+			fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+			display: "swap",
+			preload: false,
+		},
+		// 2. 你刚刚加入的中文字体（cjk 角色）
+		{
+			id: "yozai-cjk",
+			family: "Yozai",
+			role: "cjk",
+			source: "local",
+			variants: [
+				{
+					file: "src/assets/fonts/Yozai-Medium.woff2", // 确保这个文件存在
+					weight: 500,
+					style: "normal",
+				},
+			],
+			fallback: ["system-ui", "sans-serif"],
+			display: "swap",
+			preload: false,
+		},
+	],
+
 	subsetting: {
 		enable: true, // 启用自动化子集裁剪
 		includeContent: true, // 扫描 src/content/ 下所有文章
